@@ -11,6 +11,8 @@ export function Home() {
   function handleAddTask(newTaskTitle: string) {
     const existingTask = tasks.find(task => task.title === newTaskTitle);
 
+    console.log(1)
+
     if (existingTask) {
       Alert.alert(
         'Task já cadastrada',
@@ -20,11 +22,15 @@ export function Home() {
       return;
     }
 
+    console.log(2)
+
     const data = {
       id: new Date().getTime(),
       title: newTaskTitle,
       done: false
     };
+
+    console.log(3)
 
     setTasks(oldState => [...oldState, data]);
   }
@@ -56,7 +62,12 @@ export function Home() {
         }
       ]
     );
-    
+  }
+
+  function handleEditTask(taskId: number, taskNewTitle: string) {
+    setTasks(oldState => oldState.map(
+      task => task.id === taskId ? { ...task, title: taskNewTitle } : task
+    ));
   }
 
   return (
@@ -68,7 +79,8 @@ export function Home() {
       <TasksList 
         tasks={tasks} 
         toggleTaskDone={handleToggleTaskDone}
-        removeTask={handleRemoveTask} 
+        removeTask={handleRemoveTask}
+        editTask={handleEditTask}
       />
     </View>
   )
